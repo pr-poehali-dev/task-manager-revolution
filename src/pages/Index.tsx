@@ -2,17 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 interface Task {
   id: string;
@@ -168,36 +158,20 @@ const Index = () => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2">
               <span className="text-sm text-muted-foreground">Уровень энергии:</span>
-              <Select value={currentEnergyLevel} onValueChange={(v: any) => setCurrentEnergyLevel(v)}>
-                <SelectTrigger className="w-32 border-0 shadow-none focus:ring-0">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="high">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-green-500" />
-                      Высокий
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="medium">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-yellow-500" />
-                      Средний
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="low">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-orange-500" />
-                      Низкий
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <select
+                value={currentEnergyLevel}
+                onChange={(e) => setCurrentEnergyLevel(e.target.value as any)}
+                className="rounded-md border-0 bg-transparent px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              >
+                <option value="high">⚡ Высокий</option>
+                <option value="medium">☀️ Средний</option>
+                <option value="low">🌙 Низкий</option>
+              </select>
             </div>
 
-            <Avatar className="h-10 w-10">
-              <AvatarFallback className="bg-primary text-primary-foreground">ВП</AvatarFallback>
-            </Avatar>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+              ВП
+            </div>
           </div>
         </header>
 
@@ -265,9 +239,9 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="text-xs">{task.assignee}</AvatarFallback>
-                      </Avatar>
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-semibold">
+                        {task.assignee}
+                      </div>
                       <Button size="sm" variant="ghost" className="opacity-0 group-hover:opacity-100 transition-opacity">
                         <Icon name="Play" size={16} />
                       </Button>
@@ -366,7 +340,12 @@ const Index = () => {
                     <span className="text-muted-foreground">{skill.name}</span>
                     <span className="font-mono font-semibold">{skill.value}%</span>
                   </div>
-                  <Progress value={skill.value} className="h-2" />
+                  <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all duration-500"
+                      style={{ width: `${skill.value}%` }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
